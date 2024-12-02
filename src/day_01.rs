@@ -16,13 +16,13 @@ fn evaluate(input: &str) -> i32 {
     let (mut lhs, mut rhs) = parse(input);
     lhs.sort();
     rhs.sort();
-    
+
     let mut diffs = Vec::new();
     for i in 0..lhs.len() {
         let diff = (lhs[i] - rhs[i]).abs();
         diffs.push(diff);
     }
-    
+
     diffs.iter().sum()
 }
 
@@ -37,8 +37,22 @@ fn evaluate_part_two(input: &str) -> i32 {
 }
 
 fn parse(input: &str) -> (Vec<i32>, Vec<i32>) {
-    let lhs = input.lines().map(|l| l.split("   ").collect::<Vec<&str>>()[0].parse::<i32>().unwrap()).collect();
-    let rhs = input.lines().map(|l| l.split("   ").collect::<Vec<&str>>()[1].parse::<i32>().unwrap()).collect();
+    let lhs = input
+        .lines()
+        .map(|l| {
+            l.split("   ").collect::<Vec<&str>>()[0]
+                .parse::<i32>()
+                .unwrap()
+        })
+        .collect();
+    let rhs = input
+        .lines()
+        .map(|l| {
+            l.split("   ").collect::<Vec<&str>>()[1]
+                .parse::<i32>()
+                .unwrap()
+        })
+        .collect();
     (lhs, rhs)
 }
 

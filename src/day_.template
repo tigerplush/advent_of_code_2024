@@ -1,0 +1,27 @@
+use std::fs;
+
+
+pub fn load_and_evaluate(path: &str) -> (i32, i32) {
+    let input = fs::read_to_string(path).unwrap();
+    (evaluate_part_one(input.as_str()), evaluate_part_two(input.as_str()))
+}
+
+fn evaluate_part_one(input: &str) -> i32 {
+    0
+}
+
+fn evaluate_part_two(input: &str) -> i32 {
+    0
+}
+
+
+const TEST_INPUT_ONE: &str ="";
+
+#[test]
+fn test_part_one() {
+    assert_eq!(evaluate_part_one(TEST_INPUT_ONE), 0);
+}
+#[test]
+fn test_part_two() {
+    assert_eq!(evaluate_part_two(TEST_INPUT_ONE), 0);
+}

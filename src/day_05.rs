@@ -1,9 +1,11 @@
 use std::{cmp::Ordering, fs};
 
-
 pub fn load_and_evaluate(path: &str) -> (i32, i32) {
     let input = fs::read_to_string(path).unwrap();
-    (evaluate_part_one(input.as_str()), evaluate_part_two(input.as_str()))
+    (
+        evaluate_part_one(input.as_str()),
+        evaluate_part_two(input.as_str()),
+    )
 }
 
 fn evaluate_part_one(input: &str) -> i32 {
@@ -15,7 +17,7 @@ fn evaluate_part_one(input: &str) -> i32 {
             correct.push(page);
         }
     }
-    
+
     let mut result = 0;
     for pages in correct {
         let mid = pages.len() / 2;
@@ -39,7 +41,7 @@ fn evaluate_part_two(input: &str) -> i32 {
         });
         correct.push(page);
     }
-    
+
     let mut result = 0;
     for pages in correct {
         let mid = pages.len() / 2;
@@ -48,11 +50,28 @@ fn evaluate_part_two(input: &str) -> i32 {
     result
 }
 
-fn parse(input: &str) -> (Vec<PageOrderingRule>, Vec<Vec<i32>>){
-    let rules = input.lines().take_while(|l| !l.is_empty()).collect::<Vec<&str>>();
-    let pages = input.lines().skip_while(|l| !l.is_empty()).skip(1).collect::<Vec<&str>>();
-    let rules = rules.iter().map(|e| PageOrderingRule::parse_from(*e)).collect::<Vec<PageOrderingRule>>();
-    let pages = pages.iter().map(|l| l.split(",").map(|e| e.parse::<i32>().unwrap()).collect::<Vec<i32>>()).collect::<Vec<Vec<i32>>>();
+fn parse(input: &str) -> (Vec<PageOrderingRule>, Vec<Vec<i32>>) {
+    let rules = input
+        .lines()
+        .take_while(|l| !l.is_empty())
+        .collect::<Vec<&str>>();
+    let pages = input
+        .lines()
+        .skip_while(|l| !l.is_empty())
+        .skip(1)
+        .collect::<Vec<&str>>();
+    let rules = rules
+        .iter()
+        .map(|e| PageOrderingRule::parse_from(*e))
+        .collect::<Vec<PageOrderingRule>>();
+    let pages = pages
+        .iter()
+        .map(|l| {
+            l.split(",")
+                .map(|e| e.parse::<i32>().unwrap())
+                .collect::<Vec<i32>>()
+        })
+        .collect::<Vec<Vec<i32>>>();
     (rules, pages)
 }
 
@@ -64,7 +83,10 @@ struct PageOrderingRule {
 
 impl PageOrderingRule {
     fn parse_from(input: &str) -> Self {
-        let nums = input.split("|").map(|f| f.parse::<i32>().unwrap()).collect::<Vec<i32>>();
+        let nums = input
+            .split("|")
+            .map(|f| f.parse::<i32>().unwrap())
+            .collect::<Vec<i32>>();
         Self {
             lhs: nums[0],
             rhs: nums[1],
@@ -74,8 +96,7 @@ impl PageOrderingRule {
     fn evaluate(&self, window: &[i32]) -> bool {
         if self.lhs == window[1] && self.rhs == window[0] {
             false
-        }
-        else {
+        } else {
             true
         }
     }
@@ -98,7 +119,7 @@ impl Evaluate for Vec<i32> {
     }
 }
 
-const TEST_INPUT_ONE: &str ="47|53
+const TEST_INPUT_ONE: &str = "47|53
 97|13
 97|61
 97|47
@@ -140,5 +161,5 @@ fn test_part_two() {
 fn test_parse() {
     let (rules, pages) = parse(TEST_INPUT_ONE);
     assert_eq!(rules[0], PageOrderingRule::parse_from("47|53"));
-    assert_eq!(pages[0], vec![75, 47, 61,53, 29]);
+    assert_eq!(pages[0], vec![75, 47, 61, 53, 29]);
 }

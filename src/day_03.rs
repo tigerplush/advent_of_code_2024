@@ -1,13 +1,15 @@
 use std::fs;
 
-
-
 const TEST_INPUT: &str = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
-const TEST_INPUT_TWO: &str = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
+const TEST_INPUT_TWO: &str =
+    "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
 
 pub fn load_and_evaluate(path: &str) -> (i32, i32) {
     let input = fs::read_to_string(path).unwrap();
-    (evaluate_part_one(input.as_str()), evaluate_part_two(input.as_str()))
+    (
+        evaluate_part_one(input.as_str()),
+        evaluate_part_two(input.as_str()),
+    )
 }
 
 fn evaluate_part_one(input: &str) -> i32 {
@@ -45,18 +47,27 @@ fn evaluate_part_two(input: &str) -> i32 {
             let parameter = operation.split_at(index + 4);
             parameter_strings.push(parameter.1);
         }
-        if let Some(_) = operation.rfind("don't("){
+        if let Some(_) = operation.rfind("don't(") {
             parameter_strings.push("don't()");
         }
-        if let Some(_) = operation.rfind("do("){
+        if let Some(_) = operation.rfind("do(") {
             parameter_strings.push("do()");
         }
     }
 
     let mut enabled = true;
     let mut multiplied = Vec::new();
-    println!("{}", parameter_strings.iter().filter(|s| **s == "don't()").count());
-    println!("{}", parameter_strings.iter().filter(|s| **s == "do()").count());
+    println!(
+        "{}",
+        parameter_strings
+            .iter()
+            .filter(|s| **s == "don't()")
+            .count()
+    );
+    println!(
+        "{}",
+        parameter_strings.iter().filter(|s| **s == "do()").count()
+    );
     for parameter_string in parameter_strings {
         let split = parameter_string.split(",").collect::<Vec<&str>>();
         // println!("string is {}, multiplying enabled {}", parameter_string, enabled);

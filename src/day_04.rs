@@ -1,9 +1,11 @@
 use std::fs;
 
-
 pub fn load_and_evaluate(path: &str) -> (i32, i32) {
     let input = fs::read_to_string(path).unwrap();
-    (evaluate_part_one(input.as_str()), evaluate_part_two(input.as_str()))
+    (
+        evaluate_part_one(input.as_str()),
+        evaluate_part_two(input.as_str()),
+    )
 }
 
 fn evaluate_part_one(input: &str) -> i32 {
@@ -12,16 +14,28 @@ fn evaluate_part_one(input: &str) -> i32 {
     for y in 0..chars.len() {
         for x in 0..chars[y].len() {
             for direction in Direction::DIRECTIONS {
-                if x as isize + direction.x * 3 >= chars[y].len() as isize || x as isize + direction.x * 3 < 0 {
+                if x as isize + direction.x * 3 >= chars[y].len() as isize
+                    || x as isize + direction.x * 3 < 0
+                {
                     continue;
                 }
-                if y as isize + direction.y * 3 >= chars[y].len() as isize || y as isize + direction.y * 3 < 0 {
+                if y as isize + direction.y * 3 >= chars[y].len() as isize
+                    || y as isize + direction.y * 3 < 0
+                {
                     continue;
                 }
-                let match_x = chars[(y as isize + direction.y * 0) as usize][(x as isize + direction.x * 0) as usize] == 'X';
-                let match_m = chars[(y as isize + direction.y * 1) as usize][(x as isize + direction.x * 1) as usize] == 'M';
-                let match_a = chars[(y as isize + direction.y * 2) as usize][(x as isize + direction.x * 2) as usize] == 'A';
-                let match_s = chars[(y as isize + direction.y * 3) as usize][(x as isize + direction.x * 3) as usize] == 'S';
+                let match_x = chars[(y as isize + direction.y * 0) as usize]
+                    [(x as isize + direction.x * 0) as usize]
+                    == 'X';
+                let match_m = chars[(y as isize + direction.y * 1) as usize]
+                    [(x as isize + direction.x * 1) as usize]
+                    == 'M';
+                let match_a = chars[(y as isize + direction.y * 2) as usize]
+                    [(x as isize + direction.x * 2) as usize]
+                    == 'A';
+                let match_s = chars[(y as isize + direction.y * 3) as usize]
+                    [(x as isize + direction.x * 3) as usize]
+                    == 'S';
                 if match_x && match_m && match_a && match_s {
                     result += 1;
                 }
@@ -72,10 +86,10 @@ impl Direction {
     const LEFT: Direction = Direction::new(-1, 0);
     const UP: Direction = Direction::new(0, -1);
     const DOWN: Direction = Direction::new(0, 1);
-    const DOWN_RIGHT: Direction  = Direction::new(1, 1);
-    const DOWN_LEFT: Direction  = Direction::new(-1, 1);
-    const UP_RIGHT: Direction  = Direction::new(1, -1);
-    const UP_LEFT: Direction  = Direction::new(-1, -1);
+    const DOWN_RIGHT: Direction = Direction::new(1, 1);
+    const DOWN_LEFT: Direction = Direction::new(-1, 1);
+    const UP_RIGHT: Direction = Direction::new(1, -1);
+    const UP_LEFT: Direction = Direction::new(-1, -1);
 
     const DIRECTIONS: [Direction; 8] = [
         Self::RIGHT,
@@ -85,18 +99,15 @@ impl Direction {
         Self::DOWN_RIGHT,
         Self::DOWN_LEFT,
         Self::UP_RIGHT,
-        Self::UP_LEFT
+        Self::UP_LEFT,
     ];
 
     const fn new(x: isize, y: isize) -> Self {
-        Direction {
-            x,
-            y
-        }
+        Direction { x, y }
     }
 }
 
-const TEST_INPUT_ONE: &str ="MMMSXXMASM
+const TEST_INPUT_ONE: &str = "MMMSXXMASM
 MSAMXMSMSA
 AMXSXMAAMM
 MSAMASMSMX
@@ -118,5 +129,8 @@ fn test_part_two() {
 
 #[test]
 fn test_parse() {
-    assert_eq!(parse(TEST_INPUT_ONE)[0], vec!['M', 'M', 'M', 'S', 'X', 'X', 'M', 'A', 'S', 'M']);
+    assert_eq!(
+        parse(TEST_INPUT_ONE)[0],
+        vec!['M', 'M', 'M', 'S', 'X', 'X', 'M', 'A', 'S', 'M']
+    );
 }

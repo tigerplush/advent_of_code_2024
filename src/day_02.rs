@@ -74,15 +74,15 @@ impl Report {
         }
 
         println!("checking {:?}...", self.levels);
-            for i in 0..self.levels.len()  {
-                let mut copy = self.levels.clone();
-                copy.remove(i);
-                if Report::new(copy).is_valid() {
-                    println!("new variant with removal of {} is valid", self.levels[i]);
-                    self.levels.remove(i);
-                    break;
-                }
+        for i in 0..self.levels.len() {
+            let mut copy = self.levels.clone();
+            copy.remove(i);
+            if Report::new(copy).is_valid() {
+                println!("new variant with removal of {} is valid", self.levels[i]);
+                self.levels.remove(i);
+                break;
             }
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 use std::{fs, result};
 
-pub fn load_and_evaluate(path: &str) -> (i64, i32) {
+pub fn load_and_evaluate(path: &str) -> (i64, i64) {
     let input = fs::read_to_string(path).unwrap();
     (
         evaluate_part_one(input.as_str()),
@@ -15,7 +15,7 @@ fn evaluate_part_one(input: &str) -> i64 {
     for line in &lines[0..] {
         let mut current = line.clone();
         let result = current.remove(0);
-        let results = solve(current);
+        let results = solve_part_one(current);
         if results.concat().contains(&result) {
             correct.push(result);
         }
@@ -23,7 +23,7 @@ fn evaluate_part_one(input: &str) -> i64 {
     correct.iter().sum()
 }
 
-fn solve(input: Vec<i64>) -> Vec<Vec<i64>> {
+fn solve_part_one(input: Vec<i64>) -> Vec<Vec<i64>> {
     if input.len() < 2 {
         return vec![input];
     }
@@ -33,13 +33,43 @@ fn solve(input: Vec<i64>) -> Vec<Vec<i64>> {
     add[0] += first;
     let mut mul = input.clone();
     mul[0] *= first;
-    let mut result = solve(add);
-    result.append(&mut solve(mul));
+    let mut result = solve_part_one(add);
+    result.append(&mut solve_part_one(mul));
     result
 }
 
-fn evaluate_part_two(input: &str) -> i32 {
-    0
+fn solve_part_two(input: Vec<i64>) -> Vec<Vec<i64>> {
+    if input.len() < 2 {
+        return vec![input];
+    }
+    let mut input = input.clone();
+    let first = input.remove(0);
+    let mut add = input.clone();
+    add[0] += first;
+    let mut mul = input.clone();
+    mul[0] *= first;
+    let mut concat = input.clone();
+    let concat_number = format!("{}{}", first, concat[0]).parse::<i64>().unwrap();
+    concat[0] = concat_number;
+    let mut result = solve_part_two(add);
+    result.append(&mut solve_part_two(mul));
+    result.append(&mut solve_part_two(concat));
+    result
+}
+
+fn evaluate_part_two(input: &str) -> i64 {
+    let lines = parse(input);
+
+    let mut correct = Vec::new();
+    for line in &lines[0..] {
+        let mut current = line.clone();
+        let result = current.remove(0);
+        let results = solve_part_two(current);
+        if results.concat().contains(&result) {
+            correct.push(result);
+        }
+    }
+    correct.iter().sum()
 }
 
 fn parse(input: &str) -> Vec<Vec<i64>> {
@@ -70,7 +100,7 @@ fn test_part_one() {
 }
 #[test]
 fn test_part_two() {
-    assert_eq!(evaluate_part_two(TEST_INPUT_ONE), 0);
+    assert_eq!(evaluate_part_two(TEST_INPUT_ONE), 11387);
 }
 
 #[test]

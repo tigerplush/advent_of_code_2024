@@ -78,8 +78,3 @@ fn test_blink() {
 fn test_part_one() {
     assert_eq!(evaluate_part_one("125 17"), 55312);
 }
-
-#[test]
-fn test_part_two() {
-    assert_eq!(evaluate_part_two("125 17"), 55312);
-}

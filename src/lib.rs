@@ -58,7 +58,7 @@ pub const DIRECTIONS: [Direction; 4] = [
     Direction::new(-1, 0),
 ];
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Direction {
     pub x: isize,
     pub y: isize,

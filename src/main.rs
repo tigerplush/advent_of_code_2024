@@ -11,9 +11,10 @@ mod day_08;
 mod day_11;
 mod day_12;
 mod day_13;
+mod day_15;
 
 fn main() {
-    let input = fs::read_to_string("day_13.txt").unwrap();
-    let result = day_13::load_and_evaluate(&input);
+    let input = fs::read_to_string("day_15.txt").unwrap();
+    let result = day_15::load_and_evaluate(&input);
     println!("{} {}", result.0, result.1);
 }

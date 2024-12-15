@@ -66,6 +66,10 @@ pub struct Direction {
 
 impl Direction {
     pub const ONE: Direction = Direction::new(1, 1);
+    pub const LEFT: Direction = Direction::new(-1, 0);
+    pub const UP: Direction = Direction::new(0, -1);
+    pub const RIGHT: Direction = Direction::new(1, 0);
+    pub const DOWN: Direction = Direction::new(0, 1);
     pub const fn new(x: isize, y: isize) -> Self {
         Direction {
             x,

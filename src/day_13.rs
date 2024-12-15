@@ -24,6 +24,7 @@ fn evaluate_part_one(input: &str) -> isize {
     }
     tokens
 }
+
 fn evaluate_part_two(input: &str) -> isize {
     let machines = parse(input);
 
@@ -38,14 +39,31 @@ fn evaluate_part_two(input: &str) -> isize {
         }
         let u1 = nom / denom;
         let u2 = (price.y - u1 * a.y) / b.y;
-        println!("{:?} {:?} {:?}: {} {}", a, b, price, u1, u2);
-        if u1 >= 0 && u2 >= 0 {
+        if a.x * u1 + b.x * u2 == price.x && a.y * u1 + b.y * u2 == price.y {
             tokens += u1 * 3 + u2
         }
     }
     tokens
 }
 
+fn evaluate_part_one_2(input: &str) -> isize {
+    let machines = parse(input);
+
+    let mut tokens = 0;
+    for (a, b, mut price) in machines {
+        let nom = price.x * b.y - price.y * b.x;
+        let denom = a.x * b.y - a.y * b.x;
+        if nom % denom != 0 {
+            continue;
+        }
+        let u1 = nom / denom;
+        let u2 = (price.y - u1 * a.y) / b.y;
+        if a.x * u1 + b.x * u2 == price.x && a.y * u1 + b.y * u2 == price.y {
+            tokens += u1 * 3 + u2
+        }
+    }
+    tokens
+}
 
 const TEST_INPUT_ONE: &str ="Button A: X+94, Y+34
 Button B: X+22, Y+67
@@ -108,5 +126,5 @@ fn test_part_one() {
 }
 #[test]
 fn test_part_two() {
-    assert_eq!(evaluate_part_two(TEST_INPUT_ONE), 0);
+    assert_eq!(evaluate_part_one_2(TEST_INPUT_ONE), 480);
 }
